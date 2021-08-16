@@ -1,8 +1,12 @@
 package pages;
 
+import io.cucumber.java.en.Then;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 
 import java.util.ArrayList;
+
+import static stepdefinitions.SharedSD.getDriver;
 
 public class DarkSkyHomePage extends Base {
 
@@ -10,6 +14,56 @@ public class DarkSkyHomePage extends Base {
     By timeLineTemp = By.xpath("//span[@class='first']//span");
 
     By timeListRow = By.xpath("//span[@class='hour']/span");
+
+    By todaysExpander = By.xpath("//a[@data-day='0']//span[@class='open']");
+
+    By barMinTemp = By.xpath("//a[@data-day='0']//span[@class='minTemp']"); // 71˚
+    By barMaxTemp = By.xpath("//a[@data-day='0']//span[@class='maxTemp']");
+
+    By timelineMinTemp = By.xpath("//div[@class='dayDetails revealed']//span[@class='highTemp swip']//span[@class='temp']");
+    By timelineMaxTemp = By.xpath("//div[@class='dayDetails revealed']//span[@class='lowTemp swap']//span[@class='temp']");
+
+    By darkSkyAPI = By.xpath("//a[normalize-space()='Dark Sky API']");
+
+    public void clickDarkSkyAPI()
+    {
+        clickOn(darkSkyAPI);
+    }
+
+
+
+    public ArrayList<String> getBarTempList()
+    {
+        String minTemp = getTextFromElement(barMinTemp).split("˚")[0];
+        String maxTemp = getTextFromElement(barMaxTemp).split("˚")[0];
+
+        ArrayList<String> tempList = new ArrayList<>();
+        tempList.add(minTemp);
+        tempList.add(maxTemp);
+        return  tempList;
+    }
+
+    public ArrayList<String> getTimelineTempList()
+    {
+        String minTemp = getTextFromElement(timelineMinTemp).split("˚")[0]; //71˚
+        String maxTemp = getTextFromElement(timelineMaxTemp).split("˚")[0];
+
+        ArrayList<String> tempList = new ArrayList<>();
+        tempList.add(minTemp);
+        tempList.add(maxTemp);
+        return  tempList;
+    }
+
+
+    public void clickTodaysExpander()
+    {
+        JavascriptExecutor js = (JavascriptExecutor) getDriver();
+        js.executeScript("window.scrollBy(0,1000)");
+     //   clickOn(todaysExpander);
+
+        js.executeScript("arguments[0].click();",webAction(todaysExpander));
+    }
+
 
     public ArrayList<Integer> getTimeListInt()
     {
@@ -46,5 +100,7 @@ public class DarkSkyHomePage extends Base {
         //"91°"
         return tempRaw.split("°")[0]; // 91
     }
+
+
 
 }
