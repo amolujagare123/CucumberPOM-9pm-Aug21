@@ -7,6 +7,6 @@ import org.junit.runner.RunWith;
 @RunWith(Cucumber.class)
 @CucumberOptions(features = "Features",
         glue = "stepdefinitions",
-tags = "@login")
+tags = "@DistList")
 public class TestRunner {
 }
